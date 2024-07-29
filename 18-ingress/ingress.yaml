@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: uw-dev
+  name: example-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+spec:
+  rules:
+  - host: skinaapis.com.br
+    http:
+      paths:
+      - path: /skina-api
+        pathType: Prefix
+        backend:
+          service:
+            name: skinaapis-service
+            port:
+              number: 9090
+  ingressClassName: nginx
